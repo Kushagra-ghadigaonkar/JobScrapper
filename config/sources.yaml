@@ -1,15 +1,7 @@
 greenhouse:
-  # Example format:
-  # - company: Example Company
-  #   board: example
-
-  - company: ExampleCompany
-    board: example
+  - company: Graviton Research Capital
+    board: gravitonresearchcapital
 
 lever:
-  # Example format:
-  # - company: Example Company
-  #   board: example
-
-  - company: ExampleCompany
-    board: example
+  - company: Brillio
+    board: brillio-2
