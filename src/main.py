@@ -1,5 +1,7 @@
 import yaml
 
+from src.filters import is_recent_job
+
 from src.collectors.greenhouse import (
     fetch_greenhouse_jobs
 )
@@ -52,6 +54,9 @@ Match Score: {job.score}/100
 
 📍 {job.location or "Not specified"}
 
+📅 Posted/Updated:
+{job.published_at or "Not specified"}
+
 🛠 Relevant skills detected
 
 🔗 Apply:
@@ -61,7 +66,15 @@ Match Score: {job.score}/100
 
 def main():
 
+    # --------------------------------
+    # Initialize database
+    # --------------------------------
+
     initialize_database()
+
+    # --------------------------------
+    # Load profile and sources
+    # --------------------------------
 
     profile = load_profile()
 
@@ -69,9 +82,9 @@ def main():
 
     all_jobs = []
 
-    # -------------------------
+    # --------------------------------
     # Greenhouse
-    # -------------------------
+    # --------------------------------
 
     for source in sources.get(
         "greenhouse",
@@ -93,9 +106,9 @@ def main():
                 f"Greenhouse error: {error}"
             )
 
-    # -------------------------
+    # --------------------------------
     # Lever
-    # -------------------------
+    # --------------------------------
 
     for source in sources.get(
         "lever",
@@ -117,15 +130,56 @@ def main():
                 f"Lever error: {error}"
             )
 
+    # --------------------------------
+    # Total jobs collected
+    # --------------------------------
+
+    total_jobs = len(all_jobs)
+
     print(
-        f"Collected {len(all_jobs)} jobs."
+        f"Collected {total_jobs} jobs."
     )
 
-    new_jobs = 0
+    # --------------------------------
+    # Filter jobs from last 7 days
+    # --------------------------------
+
+    recent_jobs = []
+
+    skipped_jobs = 0
 
     for job in all_jobs:
 
         job = normalize_job(job)
+
+        if not is_recent_job(
+            job.published_at,
+            days=7
+        ):
+
+            skipped_jobs += 1
+
+            continue
+
+        recent_jobs.append(job)
+
+    print(
+        f"Jobs from last 7 days: "
+        f"{len(recent_jobs)}"
+    )
+
+    print(
+        f"Older/unknown-date jobs skipped: "
+        f"{skipped_jobs}"
+    )
+
+    # --------------------------------
+    # Score and save recent jobs
+    # --------------------------------
+
+    new_jobs = 0
+
+    for job in recent_jobs:
 
         score, level = calculate_score(
             job,
@@ -133,6 +187,7 @@ def main():
         )
 
         job.score = score
+
         job.match_level = level
 
         inserted = save_job(job)
@@ -147,12 +202,19 @@ def main():
                 f"{job.company}"
             )
 
-            # Only notify relevant jobs
+            # --------------------------------
+            # Telegram notification
+            # --------------------------------
+
             if job.score >= 70:
 
                 send_telegram(
                     format_notification(job)
                 )
+
+    # --------------------------------
+    # Final summary
+    # --------------------------------
 
     print(
         f"Inserted {new_jobs} new jobs."
@@ -160,4 +222,5 @@ def main():
 
 
 if __name__ == "__main__":
+
     main()
