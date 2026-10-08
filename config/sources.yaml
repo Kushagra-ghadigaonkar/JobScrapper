@@ -1,0 +1,15 @@
+greenhouse:
+  # Example format:
+  # - company: Example Company
+  #   board: example
+
+  - company: ExampleCompany
+    board: example
+
+lever:
+  # Example format:
+  # - company: Example Company
+  #   board: example
+
+  - company: ExampleCompany
+    board: example

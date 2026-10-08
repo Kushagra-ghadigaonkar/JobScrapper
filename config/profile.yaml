@@ -1,0 +1,75 @@
+experience_level:
+  - fresher
+  - entry level
+  - junior
+  - trainee
+  - associate
+  - 0-1 years
+  - 0-2 years
+  - 1-2 years
+
+locations:
+  - Mumbai
+  - Pune
+  - Bangalore
+  - Bengaluru
+  - Hyderabad
+  - Chennai
+  - Delhi
+  - Remote
+  - India
+
+primary_roles:
+  - DevOps Engineer
+  - Junior DevOps Engineer
+  - Associate DevOps Engineer
+  - DevOps Trainee
+  - DevOps Engineer Trainee
+  - Cloud DevOps Engineer
+
+secondary_roles:
+  - Cloud Engineer
+  - Junior Cloud Engineer
+  - Cloud Operations Engineer
+  - Cloud Operations Associate
+  - Infrastructure Engineer
+  - Junior Infrastructure Engineer
+  - Platform Engineer
+  - Junior Platform Engineer
+  - Site Reliability Engineer
+  - Junior SRE
+  - Cloud Support Engineer
+  - Infrastructure Support Engineer
+  - Production Support Engineer
+
+skills:
+  - linux
+  - git
+  - github
+  - docker
+  - kubernetes
+  - aws
+  - terraform
+  - ansible
+  - ci/cd
+  - github actions
+  - networking
+  - prometheus
+  - grafana
+  - helm
+  - argocd
+  - argo cd
+  - observability
+
+negative_keywords:
+  - senior
+  - staff engineer
+  - principal engineer
+  - lead engineer
+  - architect
+  - director
+  - 5+ years
+  - 6+ years
+  - 7+ years
+  - 8+ years
+  - 10+ years
